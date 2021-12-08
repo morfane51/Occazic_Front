@@ -1,0 +1,6 @@
+.input{
+  grid-area: 2 / 2 / 5 / 5;
+}
+.stepper{
+  grid-area: 4 / 3 / 5 / 4;;
+}
