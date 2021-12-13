@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { EstimateComponent } from './estimate/estimate.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -20,7 +21,7 @@ import {MatIconModule} from "@angular/material/icon";
   declarations: [
     AppComponent,
     EstimateComponent,
-    NavBarComponent
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +33,8 @@ import {MatIconModule} from "@angular/material/icon";
     ReactiveFormsModule,
     MatSelectModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

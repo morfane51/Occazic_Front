@@ -1,5 +1,4 @@
 .form{
-  border: solid;
   width: 25%;
   height: 50%;
   margin-top: 15%;
@@ -17,9 +16,6 @@
 .btn_back{
   display:inline-block;
   margin-right: 5%;
-}
-.stepper{
-  border: solid;
 }
 .input{
   width: 100%;
