@@ -1,19 +1,25 @@
-<button mat-raised-button (click)="isEditable = !isEditable">
-  {{!isEditable ? 'Enable edit mode' : 'Disable edit mode'}}
-</button>
-
 <mat-stepper class="stepper" linear #stepper>
 
   <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
-      <div class="input">
-        <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
+      <ng-template matStepLabel>Votre produit</ng-template>
+      <div class="form">
+
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Catégorie produit</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let cat of cat" [value]="cat.value">
+              {{cat.viewValue}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
-        <div>
-          <button mat-button matStepperNext>Next</button>
+
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Référence produit</mat-label>
+          <input  matInput formControlName="firstCtrl" placeholder="Réference du produit" required>
+        </mat-form-field>
+        <div class="btn">
+          <button class="btn_next" mat-raised-button matStepperNext>Next</button>
         </div>
       </div>
     </form>
@@ -21,23 +27,55 @@
 
   <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <div class="input">
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+      <ng-template matStepLabel>Dite nous en plus !</ng-template>
+      <div class="form">
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Couleur</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Rouge"
                required>
       </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+      <div class="btn">
+        <button class="btn_back" mat-raised-button matStepperPrevious>Back</button>
+        <button class="btn_next" mat-raised-button matStepperNext>Next</button>
       </div>
       </div>
     </form>
   </mat-step>
 
+  <mat-step [stepControl]="threeFormGroup" [editable]="isEditable">
+    <form [formGroup]="threeFormGroup">
+      <ng-template matStepLabel>Qui etes vous ?</ng-template>
+      <div class="form">
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="threeCtrl" placeholder="Votre nom de famille"
+                 required>
+        </mat-form-field>
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Prénom</mat-label>
+          <input matInput formControlName="threeCtrl" placeholder="Votre prénom"
+                 required>
+        </mat-form-field>
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="threeCtrl" placeholder="Votre adresse mail"
+                 required>
+        </mat-form-field>
+        <mat-form-field class="input" appearance="fill">
+          <mat-label>Numéro de téléphone</mat-label>
+          <input matInput formControlName="threeCtrl" placeholder="Votre numéro de telephone"
+                 required>
+        </mat-form-field>
+        <div class="btn">
+          <button class="btn_back" mat-raised-button matStepperPrevious>Back</button>
+          <button class="btn_next" mat-raised-button matStepperNext>Next</button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
+    <ng-template matStepLabel>Une estimation aux petits oignons</ng-template>
     <p>You are now done.</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>

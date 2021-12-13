@@ -1,6 +1,26 @@
-.input{
-  grid-area: 2 / 2 / 5 / 5;
+.form{
+  border: solid;
+  width: 25%;
+  height: 50%;
+  margin-top: 15%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+}
+.btn{
+  margin-top: 10%;
+  text-align: center;
+}
+.btn_next{
+  display:inline-block;
+}
+.btn_back{
+  display:inline-block;
+  margin-right: 5%;
 }
 .stepper{
-  grid-area: 4 / 3 / 5 / 4;;
+  border: solid;
+}
+.input{
+  width: 100%;
 }
