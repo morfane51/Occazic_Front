@@ -1,3 +1,7 @@
 .example-spacer {
   flex: 10 10 auto;
 }
+.nav{
+  margin: 0;
+  padding: 0;
+}
