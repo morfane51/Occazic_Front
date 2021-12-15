@@ -1,13 +1,14 @@
 <mat-stepper class="stepper" linear #stepper>
 
-  <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
-    <form [formGroup]="firstFormGroup">
+  <mat-step [stepControl]="productFormGroup" [editable]="isEditable">
+    <form [formGroup]="productFormGroup" (submit)="submitCat()" >
+
       <ng-template matStepLabel>Votre produit</ng-template>
       <div class="form">
 
         <mat-form-field class="input" appearance="fill">
           <mat-label>Catégorie produit</mat-label>
-          <mat-select>
+          <mat-select id="category" formControlName="category">
             <mat-option *ngFor="let catList of catList" [value]="catList._id">
               {{catList.name}}
             </mat-option>
@@ -16,72 +17,74 @@
 
         <mat-form-field class="input" appearance="fill">
           <mat-label>Référence produit</mat-label>
-          <input matInput formControlName="firstCtrl" placeholder="Réference du produit">
+          <input matInput id="ref_product" formControlName="ref_product" placeholder="Réference du produit">
         </mat-form-field>
         <div class="btn">
-          <button class="btn_next" color="primary" mat-raised-button matStepperNext>Next</button>
+          <button type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
         </div>
       </div>
+
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="inputFormGroup" [editable]="isEditable">
+    <form [formGroup]="inputFormGroup" (submit)="submitInt()">
       <ng-template matStepLabel>Dite nous en plus !</ng-template>
-      <div class="form">
 
-        <ng-container *ngFor="let inputList of inputLists">
-          <ng-container *ngIf="inputList.category == cat_selected">
-            <div *ngIf="inputList.array; then thenBlock else elseBlock"></div>
+      <div class="form" formArrayName="input">
 
-            <ng-template #thenBlock>
-              <mat-form-field class="input" appearance="fill">
-                <mat-label>{{inputList.name}}</mat-label>
-                <mat-select>
-                  <ng-container *ngFor="let input_array_List of input_array_Lists">
-                    <mat-option *ngIf="inputList._id == input_array_List.val_func_id" [value]="input_array_List._id">
-                      {{input_array_List.name}}
-                    </mat-option>
-                  </ng-container>
-                </mat-select>
-              </mat-form-field>
-            </ng-template>
+        <ng-container *ngFor="let inputForm of input.controls; let i = index">
 
-            <ng-template #elseBlock>
-              <mat-form-field class="input" appearance="fill">
-                <mat-label>{{inputList.name}}</mat-label>
-                <input matInput formControlName="secondCtrl" required>
-              </mat-form-field>
-            </ng-template>
+            <ng-container [formGroupName]="i">
+              <div *ngIf="inputLists[i].array; then thenBlock else elseBlock"></div>
 
+              <ng-template #thenBlock>
+                <mat-form-field class="input" appearance="fill">
+                  <mat-label>{{inputLists[i].name}}</mat-label>
+                  <mat-select formControlName="value">
+                    <ng-container *ngFor="let input_array_List of input_array_Lists">
+                      <mat-option *ngIf="inputLists[i]._id == input_array_List.val_func_id" [value]="input_array_List._id">
+                        {{input_array_List.name}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </ng-template>
+
+              <ng-template #elseBlock>
+                <mat-form-field class="input" appearance="fill">
+                  <mat-label>{{inputLists[i].name}}</mat-label>
+                  <input matInput formControlName="value" required>
+                </mat-form-field>
+              </ng-template>
+            </ng-container>
           </ng-container>
-        </ng-container>
       </div>
 
       <div class="btn">
-        <button class="btn_back" mat-raised-button matStepperPrevious>Back</button>
-        <button class="btn_next" color="primary" mat-raised-button matStepperNext>Next</button>
+        <button class="btn_back" mat-raised-button matStepperPrevious>Retour</button>
+        <button type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
       </div>
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="threeFormGroup" [editable]="isEditable">
-    <form [formGroup]="threeFormGroup">
+  <mat-step [stepControl]="donneeFormGroup" [editable]="isEditable">
+    <form [formGroup]="donneeFormGroup" (submit)="submitDon()">
       <ng-template matStepLabel>Qui etes vous ?</ng-template>
       <div class="form">
         <mat-form-field class="input" appearance="fill">
           <mat-label>Nom</mat-label>
-          <input matInput formControlName="threeCtrl" placeholder="Votre nom de famille"
+          <input matInput formControlName="name" placeholder="Votre nom de famille"
                  required>
         </mat-form-field>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Prénom</mat-label>
-          <input matInput formControlName="threeCtrl" placeholder="Votre prénom"
+          <input matInput formControlName="surname" placeholder="Votre prénom"
                  required>
         </mat-form-field>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput type="email" [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+          <input matInput type="email" formControlName="mail" [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
             Entrer une adresse email valide !
           </mat-error>
@@ -92,13 +95,13 @@
         <mat-form-field class="input" appearance="fill">
           <mat-label>Numéro de téléphone</mat-label>
           <span matPrefix>+33 &nbsp;</span>
-          <input type="tel" #phonenumber matInput formControlName="threeCtrl" maxlength="9" placeholder="683293503">
+          <input type="tel" #phonenumber matInput formControlName="phone" maxlength="9" placeholder="683293503">
           <mat-icon matSuffix>phone</mat-icon>
           <mat-hint align="end">{{phonenumber.value.length}} / 9</mat-hint>
         </mat-form-field>
         <div class="btn">
-          <button class="btn_back" mat-raised-button matStepperPrevious>Back</button>
-          <button class="btn_next" color="primary" mat-raised-button matStepperNext>Next</button>
+          <button class="btn_back" mat-raised-button matStepperPrevious>Retour</button>
+          <button class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
         </div>
       </div>
     </form>
