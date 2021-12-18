@@ -1,30 +1,27 @@
 <mat-stepper class="stepper" linear #stepper>
 
-  <mat-step [stepControl]="productFormGroup" [editable]="isEditable">
-    <form [formGroup]="productFormGroup" (submit)="submitCat()" >
-
+  <mat-step [editable]="isEditable">
       <ng-template matStepLabel>Votre produit</ng-template>
-      <div class="form">
+    <div class="category">
+      <mat-grid-list cols="5" rowHeight="1:1" gutterSize="15px">
+        <mat-grid-tile *ngFor="let catList of catLists">
+          <mat-card class="my-card">
+            <div (click)="test(catList._id); ">
+              <div class="img">
+                <img mat-card-image src="http://localhost:3000/{{catList.picture}}" alt="Photo of a Shiba Inu">
+              </div>
+                <mat-card-content>
+                  {{catList.name}}
+                </mat-card-content>
 
-        <mat-form-field class="input" appearance="fill">
-          <mat-label>Catégorie produit</mat-label>
-          <mat-select id="category" formControlName="category">
-            <mat-option *ngFor="let catList of catList" [value]="catList._id">
-              {{catList.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="input" appearance="fill">
-          <mat-label>Référence produit</mat-label>
-          <input matInput id="ref_product" formControlName="ref_product" placeholder="Réference du produit">
-        </mat-form-field>
-        <div class="btn">
-          <button type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
-        </div>
+            </div>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div class="btn">
+        <button class="btn_next" color="primary" mat-raised-button (click)="stepper.next();">Suivant</button>
       </div>
-
-    </form>
+    </div>
   </mat-step>
 
   <mat-step [stepControl]="inputFormGroup" [editable]="isEditable">
@@ -43,7 +40,7 @@
                   <mat-label>{{inputLists[i].name}}</mat-label>
                   <mat-select formControlName="value">
                     <ng-container *ngFor="let input_array_List of input_array_Lists">
-                      <mat-option *ngIf="inputLists[i]._id == input_array_List.val_func_id" [value]="input_array_List._id">
+                      <mat-option *ngIf="inputLists[i]._id == input_array_List.val_func_id" [value]="input_array_List.value">
                         {{input_array_List.name}}
                       </mat-option>
                     </ng-container>
@@ -60,9 +57,7 @@
             </ng-container>
           </ng-container>
       </div>
-
       <div class="btn">
-        <button class="btn_back" mat-raised-button matStepperPrevious>Retour</button>
         <button type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
       </div>
     </form>
@@ -100,7 +95,6 @@
           <mat-hint align="end">{{phonenumber.value.length}} / 9</mat-hint>
         </mat-form-field>
         <div class="btn">
-          <button class="btn_back" mat-raised-button matStepperPrevious>Retour</button>
           <button class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
         </div>
       </div>
@@ -109,10 +103,13 @@
 
   <mat-step>
     <ng-template matStepLabel>Une estimation aux petits oignons</ng-template>
-    <p>You are now done.</p>
+    <div class="estimate">
+    <h1>Voici votre estimation !</h1>
+      <p>{{proposePrice}} €</p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button class="btn_next" color="primary" mat-button>Revenir sur le site</button>
+    </div>
+
     </div>
   </mat-step>
 

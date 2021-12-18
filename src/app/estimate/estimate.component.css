@@ -6,6 +6,27 @@
   margin-right: auto;
   margin-bottom: auto;
 }
+
+.estimate{
+  width: 50%;
+  height: 50%;
+  margin-top: 15%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  text-align: center;
+}
+
+.category{
+  width: 70%;
+  height: 70%;
+  margin-top: 15%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  text-align: center;
+}
+
 .btn{
   margin-top: 10%;
   text-align: center;
@@ -13,10 +34,18 @@
 .btn_next{
   display:inline-block;
 }
-.btn_back{
-  display:inline-block;
-  margin-right: 5%;
-}
 .input{
   width: 100%;
+}
+mat-grid-tile {
+  border: solid;
+}
+.my-card {
+
+
+}
+.img{
+  margin-left: 10%;
+  margin-right: 10%;
+  border: solid;
 }

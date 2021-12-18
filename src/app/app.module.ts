@@ -14,6 +14,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
 
 
 
@@ -23,20 +25,22 @@ import {MatIconModule} from "@angular/material/icon";
     EstimateComponent,
     NavBarComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatSliderModule,
-        MatStepperModule,
-        MatInputModule,
-        MatButtonModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatIconModule,
-        HttpClientModule,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatStepperModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatIconModule,
+    HttpClientModule,
+    FormsModule,
+    MatGridListModule,
+    MatCardModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
