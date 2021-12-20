@@ -1,27 +1,32 @@
-<mat-stepper class="stepper" linear #stepper>
+<mat-stepper [orientation]="orientation" class="stepper" linear #stepper>
 
-  <mat-step [editable]="isEditable">
+  <mat-step completed="false" [editable]="isEditable">
       <ng-template matStepLabel>Votre produit</ng-template>
+
     <div class="category">
-      <mat-grid-list cols="5" rowHeight="1:1" gutterSize="15px">
-        <mat-grid-tile *ngFor="let catList of catLists">
-          <mat-card class="my-card">
-            <div (click)="test(catList._id); ">
+      <p class="description-cat">Veuillez sélectionner la catégorie auquel appartiens votre produit :</p>
+      <div fxLayout="row wrap" fxLayoutGap="10px grid" fxLayoutAlign="center">
+        <div  fxLayoutAlign="stretch" fxFlex="7%" fxFlex.xs="50%" fxFlex.sm="33%" fxFlex.md="20%" fxFlex.lg="10%" *ngFor="let catList of catLists; let i = index;">
+
+          <mat-card appMaterialElevation class="my-card" style="{{focusCardStyle(i)}}" tabindex="0" (click)="selectCat(catList._id, i);">
+            <div>
               <div class="img">
-                <img mat-card-image src="http://localhost:3000/{{catList.picture}}" alt="Photo of a Shiba Inu">
+                <img mat-card-image src="http://localhost:3000/{{catList.picture}}">
               </div>
                 <mat-card-content>
                   {{catList.name}}
                 </mat-card-content>
-
             </div>
           </mat-card>
-        </mat-grid-tile>
-      </mat-grid-list>
-      <div class="btn">
-        <button class="btn_next" color="primary" mat-raised-button (click)="stepper.next();">Suivant</button>
+        </div>
+        </div>
+
+      <div class="btn-cat">
+        <button class="btn_next" color="primary" mat-raised-button [disabled]="catIsSelect" (click)="validCatSelect(catSelected);">Suivant</button>
       </div>
+
     </div>
+
   </mat-step>
 
   <mat-step [stepControl]="inputFormGroup" [editable]="isEditable">
@@ -29,7 +34,7 @@
       <ng-template matStepLabel>Dite nous en plus !</ng-template>
 
       <div class="form" formArrayName="input">
-
+        <p class="description-form">Veuillez entrez les informations demandées :</p>
         <ng-container *ngFor="let inputForm of input.controls; let i = index">
 
             <ng-container [formGroupName]="i">
@@ -51,7 +56,8 @@
               <ng-template #elseBlock>
                 <mat-form-field class="input" appearance="fill">
                   <mat-label>{{inputLists[i].name}}</mat-label>
-                  <input matInput formControlName="value" required>
+                  <input matInput type="number" pattern="[0-9]*" formControlName="value" required>
+                  <mat-hint>Veuillez saisir uniquement des chiffres</mat-hint>
                 </mat-form-field>
               </ng-template>
             </ng-container>
@@ -67,6 +73,7 @@
     <form [formGroup]="donneeFormGroup" (submit)="submitDon()">
       <ng-template matStepLabel>Qui etes vous ?</ng-template>
       <div class="form">
+        <p class="description-form">Veuillez entrez les informations demandées :</p>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Nom</mat-label>
           <input matInput formControlName="name" placeholder="Votre nom de famille"
@@ -79,18 +86,18 @@
         </mat-form-field>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="mail" [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
-          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-            Entrer une adresse email valide !
+          <input matInput type="email" formControlName="mail" placeholder="Ex. pat@example.com">
+          <mat-error *ngIf="donneeFormGroup.hasError('email') && !donneeFormGroup.hasError('required')">
+            Veuillez entrer une adresse email valide !
           </mat-error>
-          <mat-error *ngIf="emailFormControl.hasError('required')">
+          <mat-error *ngIf="donneeFormGroup.hasError('required')">
             L'email est <strong>requis</strong> !
           </mat-error>
         </mat-form-field>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Numéro de téléphone</mat-label>
-          <span matPrefix>+33 &nbsp;</span>
-          <input type="tel" #phonenumber matInput formControlName="phone" maxlength="9" placeholder="683293503">
+          <span matPrefix>+33</span>
+          <input type="tel" #phonenumber matInput formControlName="phone" minlength="9" maxlength="9" placeholder="683293503">
           <mat-icon matSuffix>phone</mat-icon>
           <mat-hint align="end">{{phonenumber.value.length}} / 9</mat-hint>
         </mat-form-field>
@@ -105,7 +112,7 @@
     <ng-template matStepLabel>Une estimation aux petits oignons</ng-template>
     <div class="estimate">
     <h1>Voici votre estimation !</h1>
-      <p>{{proposePrice}} €</p>
+      <p>En rapportant votre produit en magasin vous pouvez éspérer entre {{price_down}}€ et {{price_up}}€</p>
     <div>
       <button class="btn_next" color="primary" mat-button>Revenir sur le site</button>
     </div>

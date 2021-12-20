@@ -1,51 +1,136 @@
-.form{
-  width: 25%;
-  height: 50%;
-  margin-top: 15%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
+@media (max-width: 549px) {
+  .form {
+    width: 80%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+  }
 }
 
-.estimate{
+@media (min-width: 550px) {
+  .form {
+    width: 65%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+  }
+}
+
+@media (min-width: 750px) {
+  .form {
+    width: 35%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+  }
+}
+
+@media (min-width: 901px) {
+  .form {
+    width: 25%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+  }
+}
+
+.description-form{
+  margin-bottom: 15%;
+  text-align: center;
+}
+
+.estimate {
   width: 50%;
   height: 50%;
-  margin-top: 15%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  text-align: center;
-}
-
-.category{
-  width: 70%;
-  height: 70%;
-  margin-top: 15%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
-  text-align: center;
-}
-
-.btn{
   margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0%;
   text-align: center;
 }
-.btn_next{
-  display:inline-block;
+
+@media (min-width: 299px) {
+  .category {
+    margin-top: 10%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: auto;
+    text-align: center;
+  }
 }
-.input{
+
+@media (min-width: 300px) {
+  .category {
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: auto;
+    text-align: center;
+  }
+}
+@media (min-width: 601px) {
+  .category {
+    margin-top: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: auto;
+    text-align: center;
+  }
+}
+
+.description-cat{
+  margin-bottom: 5%;
+}
+
+.btn {
+  margin-top: 5%;
+  text-align: center;
+}
+
+.btn-cat {
+  margin-top: 15%;
+  text-align: center;
+}
+
+@media (max-width: 1279px) {
+  .btn-cat {
+    margin-top: 15%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .btn-cat {
+    margin-top: 10%;
+    text-align: center;
+  }
+}
+
+.btn_next {
+  display: inline-block;
+}
+
+.input {
   width: 100%;
+  margin-bottom: 2%;
 }
+
 mat-grid-tile {
-  border: solid;
 }
+
 .my-card {
-
-
+  width: 65px;
+  padding-bottom: 0%;
 }
-.img{
+
+.img {
   margin-left: 10%;
   margin-right: 10%;
-  border: solid;
+  margin-top: 10%;
 }
+
+

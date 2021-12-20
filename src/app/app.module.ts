@@ -16,6 +16,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MaterialElevationDirective} from "./card-category-elevation.directive";
 
 
 
@@ -24,6 +26,7 @@ import {MatCardModule} from "@angular/material/card";
     AppComponent,
     EstimateComponent,
     NavBarComponent,
+    MaterialElevationDirective,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import {MatCardModule} from "@angular/material/card";
     HttpClientModule,
     FormsModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

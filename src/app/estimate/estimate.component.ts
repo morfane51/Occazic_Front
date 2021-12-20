@@ -1,10 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {StepperOrientation} from "@angular/cdk/stepper";
+import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
+import {MatStepper} from "@angular/material/stepper";
+
 
 interface Cat {
   _id: string;
   name: string;
+  marge: number;
   picture: string;
 }
 
@@ -39,7 +44,6 @@ interface Input_array {
 interface Estim_lists {
   _id: string;
   product_category_id: string;
-  product_ref: string;
 }
 
 interface Input_value_lists {
@@ -50,7 +54,8 @@ interface Input_value_lists {
 
 interface Calcul_lists {
   _id: string;
-  propose_price: string;
+  propose_price: number;
+  marge: number;
 }
 
 @Component({
@@ -61,12 +66,21 @@ interface Calcul_lists {
 
 export class EstimateComponent implements OnInit {
 
-  productFormGroup: FormGroup;
   inputFormGroup: FormGroup;
   donneeFormGroup: FormGroup;
 
   isEditable = false;
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  isCompleted = false;
+  orient_vert: StepperOrientation = 'vertical';
+  orient_hori: StepperOrientation = 'horizontal';
+  orientation: StepperOrientation ;
+
+  catSelected: string;
+  catIsSelect = true;
+  cardId: number;
+
+  defaultElevation = 2;
+  raisedElevation = 8;
 
   catLists: Cat[] = [];
 
@@ -80,9 +94,10 @@ export class EstimateComponent implements OnInit {
   input_Value_Lists: any;
   calcul_Estim_Lists: any;
 
-  category: string | undefined ;
+  categoryId: string | undefined ;
   estimId: string | undefined ;
-  proposePrice: number | undefined ;
+  price_up: number | undefined ;
+  price_down: number | undefined ;
 
   private _catListUrl = 'http://localhost:3000/category';
   private _inputListUrl = 'http://localhost:3000/val_func';
@@ -91,7 +106,9 @@ export class EstimateComponent implements OnInit {
   private _inputValueUrl = 'http://localhost:3000/input_func';
   private _calculEstimUrl = 'http://localhost:3000/calcul';
 
-  constructor(private _formBuilder: FormBuilder, private _httpClient: HttpClient) {
+  @ViewChild('stepper') stepper: MatStepper;
+
+  constructor(public breakpointObserver: BreakpointObserver, private _formBuilder: FormBuilder, private _httpClient: HttpClient) {
   }
 
   ngOnInit() {
@@ -105,12 +122,6 @@ export class EstimateComponent implements OnInit {
       this.input_array_Lists_temp = data;
     })
 
-    this.productFormGroup = this._formBuilder.group({
-      category: ['', Validators.required],
-      ref_product: ['', Validators.required],
-
-    });
-
     this.inputFormGroup = this._formBuilder.group({
       input: this._formBuilder.array([]),
     });
@@ -118,13 +129,57 @@ export class EstimateComponent implements OnInit {
     this.donneeFormGroup = this._formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      mail: ['', Validators.required],
-      phone: ['', Validators.required]
+      mail: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.min(9)]]
     });
+
+    this.breakpointObserver
+      .observe(['(max-width: 1300px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.orientation = this.orient_vert;
+        } else {
+          this.orientation = this.orient_hori;
+        }
+      });
   }
 
-  createEstim(cat: string, ref: string) {
-    const body = {product_category_id: cat, product_ref: ref};
+  selectCat(cat_id: string, cardId: number) {
+    this.catSelected = cat_id;
+    this.catIsSelect = false;
+    this.cardId = cardId;
+  }
+
+  // @ts-ignore
+  focusCardStyle(cardId: number){
+    const style = "outline: 3px solid #3f51b5;";
+    if(cardId == this.cardId){
+      return style;
+    }
+  }
+
+  validCatSelect(cat_id: string){
+    if (cat_id == null) {
+      console.log('vide');
+      return;
+    }
+
+    // @ts-ignore
+    this.stepper.selected.completed = true;
+    this.stepper.next();
+    console.log(cat_id);
+    this.categoryId = cat_id;
+    this.selectInput()
+    console.log(this.inputLists);
+    console.log(this.inputLists_temp);
+    this.selectInputOption()
+    console.log(this.input_array_Lists);
+    console.log(this.input_array_Lists_temp);
+    this.createEstim(cat_id)
+  }
+
+  createEstim(cat_id: string) {
+    const body = {product_category_id: cat_id};
     this._httpClient.post<Estim_lists[]>(this._estimPostUrl, body).subscribe(data => {
       JSON.stringify(data);
       this.estim_Lists = data;
@@ -156,23 +211,12 @@ export class EstimateComponent implements OnInit {
       JSON.stringify(data);
       this.calcul_Estim_Lists = data;
       console.log(data)
-      this.proposePrice = this.calcul_Estim_Lists.propose_price
+      let price = this.calcul_Estim_Lists.propose_price ;
+      let marge = this.calcul_Estim_Lists.marge;
+      let percentage_price = Math.floor( marge / price * 100);
+      this.price_up = Math.floor(price + percentage_price);
+      this.price_down = Math.floor(price - percentage_price);
     });
-  }
-
-  submitCat() {
-    if (!this.productFormGroup.valid) {
-      return;
-    }
-    console.log(this.productFormGroup.value.category);
-    this.category = this.productFormGroup.value.category;
-    this.selectInput()
-    console.log(this.inputLists);
-    console.log(this.inputLists_temp);
-    this.selectInputOption()
-    console.log(this.input_array_Lists);
-    console.log(this.input_array_Lists_temp);
-    this.createEstim(this.productFormGroup.value.category, this.productFormGroup.value.ref_product)
   }
 
   submitInt() {
@@ -193,7 +237,7 @@ export class EstimateComponent implements OnInit {
 
   selectInput() {
     for (let input of this.inputLists_temp) {
-      if (this.productFormGroup.value.category == input.category) {
+      if (this.categoryId == input.category) {
         console.log(input);
         this.inputLists.push(input);
         this.addInput(input._id);
@@ -213,11 +257,6 @@ export class EstimateComponent implements OnInit {
         }
       }
     }
-  }
-
-  test(id: string){
-    console.log('GOOD')
-    console.log(id)
   }
 
   get input(): FormArray {
