@@ -188,8 +188,8 @@ export class EstimateComponent implements OnInit {
 
   }
 
-  editEstim(name: string, surname: string, mail: string, phone: string) {
-    const body = {name: name, surname: surname, mail: mail};
+  editEstim(name: string, surname: string, mail: string, phone: string, calcul?: string) {
+    const body = {name: name, surname: surname, mail: mail, calcul_id: calcul};
     this._httpClient.put<Estim_lists[]>(this._estimPostUrl + '/' + this.estimId, body).subscribe(data => {
       this.estim_Lists = data;
       console.log(data)
@@ -216,6 +216,7 @@ export class EstimateComponent implements OnInit {
       let percentage_price = Math.floor( marge / price * 100);
       this.price_up = Math.floor(price + percentage_price);
       this.price_down = Math.floor(price - percentage_price);
+      this.editEstim(this.estim_Lists.name, this.estim_Lists.surname, this.estim_Lists.mail, this.estim_Lists.phone, this.calcul_Estim_Lists._id)
     });
   }
 
