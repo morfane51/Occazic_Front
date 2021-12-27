@@ -6,7 +6,7 @@
     <div class="category">
       <p class="description-cat">Veuillez sélectionner la catégorie auquel appartiens votre produit :</p>
       <div fxLayout="row wrap" fxLayoutGap="10px grid" fxLayoutAlign="center">
-        <div  fxLayoutAlign="stretch" fxFlex="7%" fxFlex.xs="50%" fxFlex.sm="33%" fxFlex.md="20%" fxFlex.lg="10%" *ngFor="let catList of catLists; let i = index;">
+        <div fxLayoutAlign="stretch" *ngFor="let catList of catLists; let i = index;">
 
           <mat-card appMaterialElevation class="my-card" style="{{focusCardStyle(i)}}" tabindex="0" (click)="selectCat(catList._id, i);">
             <div>
