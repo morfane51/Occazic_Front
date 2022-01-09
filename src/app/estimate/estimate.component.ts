@@ -211,11 +211,23 @@ export class EstimateComponent implements OnInit {
       JSON.stringify(data);
       this.calcul_Estim_Lists = data;
       console.log(data)
+      let price_up_temp: number;
+      let price_down_temp: number;
       let price = this.calcul_Estim_Lists.propose_price ;
       let marge = this.calcul_Estim_Lists.marge;
       let percentage_price = Math.floor( marge / price * 100);
-      this.price_up = Math.floor(price + percentage_price);
-      this.price_down = Math.floor(price - percentage_price);
+      price_up_temp = Math.floor(price + percentage_price);
+      price_down_temp = Math.floor(price - percentage_price);
+      if (price_down_temp < 1){
+        this.price_down = 1;
+      }else{
+        this.price_down = 1;
+        this.price_up = price_up_temp;
+      }
+      if (price_up_temp < 0){
+        this.price_down = 0;
+        this.price_up = 0;
+      }
       this.editEstim(this.estim_Lists.name, this.estim_Lists.surname, this.estim_Lists.mail, this.estim_Lists.phone, this.calcul_Estim_Lists._id)
     });
   }

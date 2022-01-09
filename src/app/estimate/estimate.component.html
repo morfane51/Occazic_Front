@@ -96,10 +96,9 @@
         </mat-form-field>
         <mat-form-field class="input" appearance="fill">
           <mat-label>Numéro de téléphone</mat-label>
-          <span matPrefix>+33</span>
-          <input type="tel" #phonenumber matInput formControlName="phone" minlength="9" maxlength="9" placeholder="683293503">
+          <input type="tel" #phonenumber matInput formControlName="phone" minlength="10" maxlength="10" placeholder="0601020304">
           <mat-icon matSuffix>phone</mat-icon>
-          <mat-hint align="end">{{phonenumber.value.length}} / 9</mat-hint>
+          <mat-hint align="end">{{phonenumber.value.length}} / 10</mat-hint>
         </mat-form-field>
         <div class="btn">
           <button class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
