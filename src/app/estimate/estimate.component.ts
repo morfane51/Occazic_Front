@@ -163,7 +163,6 @@ export class EstimateComponent implements OnInit {
       console.log('vide');
       return;
     }
-
     // @ts-ignore
     this.stepper.selected.completed = true;
     this.stepper.next();
@@ -220,11 +219,9 @@ export class EstimateComponent implements OnInit {
       price_down_temp = Math.floor(price - percentage_price);
       if (price_down_temp < 1){
         this.price_down = 1;
-      }else{
-        this.price_down = 1;
-        this.price_up = price_up_temp;
       }
-      if (price_up_temp < 0){
+      this.price_up = price_up_temp;
+      if (price_up_temp < 1){
         this.price_down = 0;
         this.price_up = 0;
       }
