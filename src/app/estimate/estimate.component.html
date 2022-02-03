@@ -1,6 +1,35 @@
 <mat-stepper [orientation]="orientation" class="stepper" linear #stepper>
 
   <mat-step completed="false" [editable]="isEditable">
+    <ng-template matStepLabel>Votre produit</ng-template>
+
+    <div class="category">
+      <p class="description-cat">Veuillez sélectionner la catégorie auquel appartiens votre produit :</p>
+      <div fxLayout="row wrap" fxLayoutGap="10px grid" fxLayoutAlign="center">
+        <div fxLayoutAlign="stretch" *ngFor="let rootCatList of rootCatLists; let i = index;">
+
+          <mat-card appMaterialElevation class="my-card" style="{{focusRootCatCardStyle(i)}}" tabindex="0" (click)="selectRootCat(rootCatList._id, i);">
+            <div>
+              <div class="img">
+                <img mat-card-image src="http://localhost:3000/{{rootCatList.picture}}">
+              </div>
+              <mat-card-content>
+                {{rootCatList.name}}
+              </mat-card-content>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="btn-cat">
+        <button class="btn_next" color="primary" mat-raised-button [disabled]="rootCatIsSelect" (click)="validRootCatSelect(rootCatSelected);">Suivant</button>
+      </div>
+
+    </div>
+
+  </mat-step>
+
+  <mat-step completed="false" [editable]="isEditable">
       <ng-template matStepLabel>Votre produit</ng-template>
 
     <div class="category">
@@ -8,7 +37,8 @@
       <div fxLayout="row wrap" fxLayoutGap="10px grid" fxLayoutAlign="center">
         <div fxLayoutAlign="stretch" *ngFor="let catList of catLists; let i = index;">
 
-          <mat-card appMaterialElevation class="my-card" style="{{focusCardStyle(i)}}" tabindex="0" (click)="selectCat(catList._id, i);">
+
+          <mat-card appMaterialElevation class="my-card" style="{{focusCatCardStyle(i)}}" tabindex="0" (click)="selectCat(catList._id, i);">
             <div>
               <div class="img">
                 <img mat-card-image src="http://localhost:3000/{{catList.picture}}">
@@ -18,6 +48,7 @@
                 </mat-card-content>
             </div>
           </mat-card>
+
         </div>
         </div>
 
