@@ -4,7 +4,7 @@
 
 
 Copy repository and use `npm install` then `npm run build`.
-Research build of Occazic Front in `/dist` folder and copy in your web server.
+Research build of `Occazic-Front` in `/dist` folder and copy in your web server.
 
 ### Docker Installation :
 
