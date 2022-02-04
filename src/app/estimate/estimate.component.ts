@@ -85,7 +85,7 @@ export class EstimateComponent implements OnInit {
       name: ['', Validators.required],
       surname: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.min(9)]]
+      //phone: ['', [Validators.required, Validators.min(9)]]
     });
 
     this.breakpointObserver
@@ -204,7 +204,7 @@ export class EstimateComponent implements OnInit {
 
   }
 
-  async editEstim(name: string, surname: string, mail: string, phone: string, calcul?: string) {
+  async editEstim(name: string, surname: string, mail: string, phone?: string, calcul?: string) {
     let estimId = await this.estimId
     await this.dataSrv.putEstimateData(name, surname, mail, estimId, calcul)
       .toPromise()
