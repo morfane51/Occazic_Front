@@ -5,6 +5,7 @@ import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {MatStepper} from "@angular/material/stepper";
 import {Cat, FrontDataService, Input_array, Input_array_temp, Input, Root_Cat} from "../data.service";
+import {environment} from "../../environments/environment";
 
 export interface Input_temp {
   _id: string;
@@ -61,6 +62,8 @@ export class EstimateComponent implements OnInit {
   estimId: string | undefined ;
   price_up: number | undefined ;
   price_down: number | undefined ;
+
+  apiURL = environment.apiURL;
 
   @ViewChild('stepper') stepper: MatStepper;
 

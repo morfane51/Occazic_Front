@@ -11,7 +11,7 @@
           <mat-card appMaterialElevation class="my-card" style="{{focusRootCatCardStyle(i)}}" tabindex="0" (click)="selectRootCat(rootCatList._id, i);">
             <div>
               <div class="img">
-                <img mat-card-image src="http://localhost:3000/{{rootCatList.picture}}">
+                <img mat-card-image src="{{apiURL}}/{{rootCatList.picture}}">
               </div>
               <mat-card-content>
                 {{rootCatList.name}}
@@ -41,7 +41,7 @@
           <mat-card appMaterialElevation class="my-card" style="{{focusCatCardStyle(i)}}" tabindex="0" (click)="selectCat(catList._id, i);">
             <div>
               <div class="img">
-                <img mat-card-image src="http://localhost:3000/{{catList.picture}}">
+                <img mat-card-image src="{{apiURL}}/{{catList.picture}}">
               </div>
                 <mat-card-content>
                   {{catList.name}}

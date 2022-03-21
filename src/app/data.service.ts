@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
+import {environment} from "../environments/environment";
 
 export interface Root_Cat {
   _id: string;
@@ -67,13 +67,13 @@ export class FrontDataService {
   input_array_Lists: Input_array[] = [];
   input_array_Lists_temp: Input_array_temp[] = [];
 
-  private _rootCatListUrl = 'http://localhost:3000/sub-category';
-  private _catListUrl = 'http://localhost:3000/category';
-  private _inputListUrl = 'http://localhost:3000/val_func';
-  private _input_array_ListUrl = 'http://localhost:3000/array_val';
-  private _estimPostUrl = 'http://localhost:3000/price_estim';
-  private _inputValueUrl = 'http://localhost:3000/input_func';
-  private _calculEstimUrl = 'http://localhost:3000/calcul';
+  private _rootCatListUrl = environment.apiURL + '/sub-category';
+  private _catListUrl = environment.apiURL + '/category';
+  private _inputListUrl = environment.apiURL + '/val_func';
+  private _input_array_ListUrl = environment.apiURL + '/array_val';
+  private _estimPostUrl = environment.apiURL + '/price_estim';
+  private _inputValueUrl = environment.apiURL + '/input_func';
+  private _calculEstimUrl = environment.apiURL + '/calcul';
 
   constructor(public _httpClient: HttpClient) {}
 
