@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://occasion.aymeric-mai.fr:3000'
+  apiURL: 'http://occasion.prozic.com:3000'
 };
 
 /*
