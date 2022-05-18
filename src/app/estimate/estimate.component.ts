@@ -244,7 +244,7 @@ export class EstimateComponent implements OnInit {
       let price_down_temp: number;
       let price = this.calcul_Estim_Lists.propose_price ;
       let marge = this.calcul_Estim_Lists.marge;
-      let percentage_price = Math.floor( marge / price * 100);
+      let percentage_price = Math.floor( marge / 100 * price);
       price_up_temp = Math.floor(price + percentage_price);
       price_down_temp = Math.floor(price - percentage_price);
       if (price_down_temp < 1){
