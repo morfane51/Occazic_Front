@@ -87,8 +87,15 @@
               <ng-template #elseBlock>
                 <mat-form-field class="input" appearance="fill">
                   <mat-label>{{inputLists[i].name}}</mat-label>
-                  <input matInput type="number" pattern="[0-9]*" formControlName="value" required>
-                  <mat-hint>Veuillez saisir uniquement des chiffres</mat-hint>
+                  <div *ngIf="inputLists[i].text; then thenBlock else elseBlock"></div>
+                  <ng-template #thenBlock>
+                    <input matInput formControlName="value" required>
+                  </ng-template>
+                  <ng-template #elseBlock>
+                    <input matInput type="number" pattern="[0-9]*" formControlName="value" required>
+                  </ng-template>
+                  <mat-hint *ngIf="inputLists[i].text">Veuillez saisir du texte</mat-hint>
+                  <mat-hint *ngIf="!inputLists[i].text">Veuillez saisir uniquement des chiffres</mat-hint>
                 </mat-form-field>
               </ng-template>
             </ng-container>

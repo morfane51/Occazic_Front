@@ -24,6 +24,7 @@ export interface Input {
   _id: string;
   name: string;
   array: boolean;
+  text: boolean;
   category: string;
 }
 
