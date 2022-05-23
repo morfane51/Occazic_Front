@@ -220,6 +220,7 @@ export class EstimateComponent implements OnInit {
       });
   }
 
+  // Send all data of product, entry by user, in DB. estimId is used for bind user entry and user estimate.
   async sendInputValue(id: string, value: string) {
     let estimId = await this.estimId
     await this.dataSrv.postInputValueData(estimId, id, value)
