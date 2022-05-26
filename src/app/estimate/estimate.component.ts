@@ -361,5 +361,12 @@ export class EstimateComponent implements OnInit {
     this.input.push(inputForm);
   }
 
+  // Reload app for new estimate
+  refresh(): void { window.location.reload(); }
+
+  // Load client page
+  goWebsite(): void { window.location.href = "https://prozic.com"; }
+
+
 
 }

@@ -159,7 +159,8 @@
     <h1>Voici votre estimation !</h1>
       <p>En rapportant votre produit en magasin vous pouvez éspérer entre {{price_down}}€ et {{price_up}}€</p>
     <div>
-      <button class="btn_next" color="primary" mat-button>Revenir sur le site</button>
+      <button class="btn_next" color="primary" mat-button (click)="goWebsite()">Revenir sur le site</button>
+      <button class="btn_next" color="primary" mat-button (click)="refresh()">Nouvelle estimation</button>
     </div>
 
     </div>
