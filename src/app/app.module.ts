@@ -18,6 +18,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MaterialElevationDirective} from "./card-category-elevation.directive";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 
@@ -28,23 +29,24 @@ import {MaterialElevationDirective} from "./card-category-elevation.directive";
     NavBarComponent,
     MaterialElevationDirective,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    MatStepperModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatIconModule,
-    HttpClientModule,
-    FormsModule,
-    MatGridListModule,
-    MatCardModule,
-    FlexLayoutModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatSliderModule,
+        MatStepperModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatIconModule,
+        HttpClientModule,
+        FormsModule,
+        MatGridListModule,
+        MatCardModule,
+        FlexLayoutModule,
+        MatAutocompleteModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

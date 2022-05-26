@@ -68,20 +68,28 @@
         <p class="description-form">Veuillez entrez les informations demandées :</p>
         <ng-container *ngFor="let inputForm of input.controls; let i = index">
 
-            <ng-container [formGroupName]="i">
-              <div *ngIf="inputLists[i].array; then thenBlock else elseBlock"></div>
+            <ng-container [formGroupName]="i" >
+              <div *ngIf="inputLists[i].array; then thenBlock else elseBlock" ></div>
 
               <ng-template #thenBlock>
+                <div (click)="AddSelectAuto(i)">
                 <mat-form-field class="input" appearance="fill">
                   <mat-label>{{inputLists[i].name}}</mat-label>
-                  <mat-select formControlName="value">
-                    <ng-container *ngFor="let input_array_List of input_array_Lists">
-                      <mat-option *ngIf="inputLists[i]._id == input_array_List.val_func_id" [value]="input_array_List.value">
+                  <input type="text" placeholder="Enter Location" matInput formControlName="value" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <ng-container *ngFor="let input_array_List of input_array_Lists_Option[i] | async">
+                      <mat-option *ngIf="inputLists[i]._id == input_array_List.val_func_id" [value]="input_array_List">
                         {{input_array_List.name}}
                       </mat-option>
                     </ng-container>
-                  </mat-select>
+                  </mat-autocomplete>
+
+                  <mat-error *ngIf="input.controls[i].get('value')!.hasError('invalidAutocompleteObject')">
+                    Choisir une valeur parmis celle proposé !
+                  </mat-error>
+
                 </mat-form-field>
+                </div>
               </ng-template>
 
               <ng-template #elseBlock>
@@ -102,7 +110,7 @@
           </ng-container>
       </div>
       <div class="btn">
-        <button type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
+        <button [disabled]="inputFormGroup.invalid" type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
       </div>
     </form>
   </mat-step>
@@ -125,10 +133,10 @@
         <mat-form-field class="input" appearance="fill">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="mail" placeholder="Ex. pat@example.com">
-          <mat-error *ngIf="donneeFormGroup.hasError('email') && !donneeFormGroup.hasError('required')">
+          <mat-error *ngIf="donneeFormGroup.get('mail')!.hasError('email') && !donneeFormGroup.get('mail')!.hasError('required')">
             Veuillez entrer une adresse email valide !
           </mat-error>
-          <mat-error *ngIf="donneeFormGroup.hasError('required')">
+          <mat-error *ngIf="donneeFormGroup.get('mail')!.hasError('required')">
             L'email est <strong>requis</strong> !
           </mat-error>
         </mat-form-field>
@@ -139,7 +147,7 @@
           <mat-hint align="end">{{phonenumber.value.length}} / 10</mat-hint>
         </mat-form-field> -->
         <div class="btn">
-          <button class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
+          <button [disabled]="donneeFormGroup.invalid" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
         </div>
       </div>
     </form>

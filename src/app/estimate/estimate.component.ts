@@ -1,19 +1,22 @@
 import {Component, OnInit, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl, FormArray, ValidatorFn, AbstractControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {MatStepper} from "@angular/material/stepper";
 import {Cat, FrontDataService, Input_array, Input_array_temp, Input, Root_Cat} from "../data.service";
 import {environment} from "../../environments/environment";
+import {map, Observable, startWith} from "rxjs";
 
-export interface Input_temp {
-  _id: string;
-  name: string;
-  array: boolean;
-  category: string;
+// Validator function for force user to use value in select
+function autocompleteValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (typeof control.value === 'string') {
+      return { 'invalidAutocompleteObject': { value: control.value } }
+    }
+    return null  /* valid option selected */
+  }
 }
-
 
 @Component({
   selector: 'app-estimate',
@@ -53,6 +56,8 @@ export class EstimateComponent implements OnInit {
   input_array_Lists: Input_array[] = [];
   input_array_Lists_temp: Input_array_temp[] | undefined = [];
 
+  input_array_Lists_Option: Observable<Input_array[]>[] = [];
+
   estim_Lists: any;
   input_Value_Lists: any;
   calcul_Estim_Lists: any;
@@ -62,6 +67,7 @@ export class EstimateComponent implements OnInit {
   estimId: string | undefined ;
   price_up: number | undefined ;
   price_down: number | undefined ;
+  index_temp_autocomplete: number | undefined ;
 
   apiURL = environment.apiURL;
 
@@ -102,6 +108,37 @@ export class EstimateComponent implements OnInit {
       });
   }
 
+  // For Load Autocomplete select
+  AddSelectAuto(index: number){
+    if (this.index_temp_autocomplete !== index){
+      this.LoadSelectAuto(index);
+      this.index_temp_autocomplete = index;
+    }else{
+      this.index_temp_autocomplete = index;
+    }
+  }
+
+  LoadSelectAuto(index: number) {
+    var arrayControl = this.inputFormGroup.get('input') as FormArray;
+    // @ts-ignore
+    this.input_array_Lists_Option[index] = arrayControl.at(index).get('value').valueChanges
+      .pipe(
+        startWith<string | Input_array>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.input_array_Lists.slice())
+      )
+
+  }
+
+  displayFn(name: Input_array): string {
+    return name && name.name ? name.name : '';
+  }
+
+  private _filter(name: string): Input_array[] {
+    const filterValue = name.toLowerCase();
+    return this.input_array_Lists.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
   async getCategoryData(root_cat_id: string) {
     await this.dataSrv.getCategoryData(root_cat_id).toPromise()
       .then(data => {
@@ -124,6 +161,7 @@ export class EstimateComponent implements OnInit {
       });
   }
 
+  // Call all Array entry
   async getArrayFuncData() {
     await this.dataSrv.getArrayFuncData().toPromise()
       .then(data => {
@@ -261,10 +299,17 @@ export class EstimateComponent implements OnInit {
     });
   }
 
+  // Sort input entry by user. Select entry is Array
   submitInt() {
-    console.log(this.inputFormGroup.value);
     for (let value of this.inputFormGroup.value.input) {
-      this.sendInputValue(value.id, value.value);
+      // Select is Array
+      if (value.value.value !== undefined){
+        this.sendInputValue(value.id, value.value.value);
+      }
+      // The rest of classic input
+      else{
+        this.sendInputValue(value.id, value.value);
+      }
     }
   }
 
@@ -311,9 +356,10 @@ export class EstimateComponent implements OnInit {
   addInput(_id: string) {
     const inputForm = this._formBuilder.group({
       id: _id,
-      value: ['', Validators.required]
+      value: ['', [Validators.required, autocompleteValidator()]]
     });
     this.input.push(inputForm);
   }
+
 
 }
