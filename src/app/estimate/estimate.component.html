@@ -97,7 +97,7 @@
                   <mat-label>{{inputLists[i].name}}</mat-label>
                   <div *ngIf="inputLists[i].text; then thenBlock else elseBlock"></div>
                   <ng-template #thenBlock>
-                    <input matInput formControlName="value" required>
+                    <input matInput type="text" formControlName="value" required>
                   </ng-template>
                   <ng-template #elseBlock>
                     <input matInput type="number" pattern="[0-9]*" formControlName="value" required>

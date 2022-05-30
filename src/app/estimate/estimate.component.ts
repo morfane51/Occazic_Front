@@ -329,7 +329,12 @@ export class EstimateComponent implements OnInit {
       if (this.categoryId == input.category) {
         console.log(input);
         this.inputLists.push(input);
-        this.addInput(input._id);
+        if (input.text){
+          this.addInputText(input._id)
+        }
+        else{
+          this.addInput(input._id);
+        }
       }
 
     }
@@ -357,6 +362,14 @@ export class EstimateComponent implements OnInit {
     const inputForm = this._formBuilder.group({
       id: _id,
       value: ['', [Validators.required, autocompleteValidator()]]
+    });
+    this.input.push(inputForm);
+  }
+
+  addInputText(_id: string) {
+    const inputForm = this._formBuilder.group({
+      id: _id,
+      value: ['', Validators.required]
     });
     this.input.push(inputForm);
   }
