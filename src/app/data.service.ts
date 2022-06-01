@@ -28,6 +28,11 @@ export interface Input {
   category: string;
 }
 
+export interface Input_value {
+  id: string;
+  value: string;
+}
+
 export interface Input_array_temp {
   _id: string;
   name: string;
@@ -94,22 +99,22 @@ export class FrontDataService {
     return this._httpClient.get<Input_array_temp[]>(this._input_array_ListUrl)
   }
 
-  postEstimateData(cat_id: string) {
-    const body = {product_category_id: cat_id};
+  postEstimateData(cat_id: string | undefined, name: string, surname: string, mail: string) {
+    const body = {product_category_id: cat_id, name: name, surname: surname, mail: mail};
     return this._httpClient.post<Estim_lists[]>(this._estimPostUrl, body)
   }
 
-  putEstimateData(name: string, surname: string, mail: string, estimId: string | undefined, calcul?: string | undefined) {
-    const body = { name: name, surname: surname, mail: mail, calcul_id: calcul };
+  putEstimateData(calcul: string, estimId: string ) {
+    const body = { calcul_id: calcul };
     return this._httpClient.put<Estim_lists[]>(this._estimPostUrl + '/' + estimId, body)
   }
 
-  postInputValueData(estimId: string | undefined, id: string, value: string) {
+  postInputValueData(estimId: string, id: string, value: string) {
     const body = {price_estimate_id: estimId, val_func_id: id, value: value};
     return this._httpClient.post<Input_value_lists[]>(this._inputValueUrl, body)
   }
 
-  postCalculateData(estimId: string | undefined) {
+  postCalculateData(estimId: string) {
     const body = {price_estimID: estimId};
     return this._httpClient.post<Calcul_lists[]>(this._calculEstimUrl, body)
   }

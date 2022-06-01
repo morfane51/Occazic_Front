@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {MatStepper} from "@angular/material/stepper";
-import {Cat, FrontDataService, Input_array, Input_array_temp, Input, Root_Cat} from "../data.service";
+import {Cat, FrontDataService, Input_array, Input_array_temp, Input, Root_Cat, Input_value} from "../data.service";
 import {environment} from "../../environments/environment";
 import {map, Observable, startWith} from "rxjs";
 
@@ -64,7 +64,9 @@ export class EstimateComponent implements OnInit {
 
   rootCategoryId: string | undefined ;
   categoryId: string | undefined ;
-  estimId: string | undefined ;
+  inputValueLists: Input_value[] = [];
+
+  estimId: string;
   price_up: number | undefined ;
   price_down: number | undefined ;
   index_temp_autocomplete: number | undefined ;
@@ -139,6 +141,7 @@ export class EstimateComponent implements OnInit {
     return this.input_array_Lists.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  // Get Root category data.
   async getCategoryData(root_cat_id: string) {
     await this.dataSrv.getCategoryData(root_cat_id).toPromise()
       .then(data => {
@@ -203,6 +206,7 @@ export class EstimateComponent implements OnInit {
     }
   }
 
+  // Confirm sub-cat for display input in next step
   async validCatSelect(cat_id: string){
     if (cat_id == null) {
       console.log('vide');
@@ -216,13 +220,14 @@ export class EstimateComponent implements OnInit {
     this.selectInputOption()
     console.log(this.input_array_Lists);
     console.log(this.input_array_Lists_temp);
-    this.createEstim(cat_id)
+
     // @ts-ignore
     this.stepper.selected.completed = true;
     this.stepper.next();
     console.log(cat_id);
   }
 
+  // Confirm a root cat for display sub-cat in next step
   async validRootCatSelect(root_cat_id: string){
     if (root_cat_id == null) {
       console.log('vide');
@@ -236,18 +241,24 @@ export class EstimateComponent implements OnInit {
     this.rootCategoryId = root_cat_id;
   }
 
-  createEstim(cat_id: string) {
-    this.dataSrv.postEstimateData(cat_id).subscribe(data => {
-      JSON.stringify(data);
-      this.estim_Lists = data;
-      this.estimId = this.estim_Lists._id;
-    });
+  // Create estimate.
+  async createEstim(cat_id: string | undefined, name: string, surname: string, mail: string, phone?: string) {
+    await this.dataSrv.postEstimateData(cat_id, name, surname, mail)
+      .toPromise()
+      .then(data => {
+        JSON.stringify(data);
+        this.estim_Lists = data;
+        this.estimId = this.estim_Lists._id;
+      })
+      .catch(err => {
+        console.log('Not create estimate error : ' + err);
+      });
 
   }
 
-  async editEstim(name: string, surname: string, mail: string, phone?: string, calcul?: string) {
+  async editEstim(calcul: string) {
     let estimId = await this.estimId
-    await this.dataSrv.putEstimateData(name, surname, mail, estimId, calcul)
+    await this.dataSrv.putEstimateData(calcul, estimId)
       .toPromise()
       .then(data => {
         this.estim_Lists = data;
@@ -261,6 +272,7 @@ export class EstimateComponent implements OnInit {
   // Send all data of product, entry by user, in DB. estimId is used for bind user entry and user estimate.
   async sendInputValue(id: string, value: string) {
     let estimId = await this.estimId
+    await console.log('Dans send input', estimId)
     await this.dataSrv.postInputValueData(estimId, id, value)
       .toPromise()
       .then(data => {
@@ -295,34 +307,41 @@ export class EstimateComponent implements OnInit {
         this.price_down = 0;
         this.price_up = 0;
       }
-      this.editEstim(this.estim_Lists.name, this.estim_Lists.surname, this.estim_Lists.mail, this.estim_Lists.phone, this.calcul_Estim_Lists._id)
+      this.editEstim(this.calcul_Estim_Lists._id)
     });
   }
 
-  // Sort input entry by user. Select entry is Array
+  // Sort input entry by user. Select entry is an Array
   submitInt() {
+    console.log(this.inputFormGroup.value.input)
     for (let value of this.inputFormGroup.value.input) {
       // Select is Array
       if (value.value.value !== undefined){
-        this.sendInputValue(value.id, value.value.value);
+        this.inputValueLists.push({id: value.id, value: value.value.value})
       }
       // The rest of classic input
       else{
-        this.sendInputValue(value.id, value.value);
+        this.inputValueLists.push({id: value.id, value: value.value})
       }
     }
   }
 
-  submitDon() {
+  // Add personnal data user in price estimate. And calcul estmate.
+  async submitDon() {
     if (!this.donneeFormGroup.valid) {
       return;
     }
-    console.log(this.donneeFormGroup.value);
-    this.editEstim(this.donneeFormGroup.value.name, this.donneeFormGroup.value.surname, this.donneeFormGroup.value.mail, this.donneeFormGroup.value.phone);
-    this.calculEstim();
+
+    await this.createEstim(this.categoryId, this.donneeFormGroup.value.name, this.donneeFormGroup.value.surname, this.donneeFormGroup.value.mail, this.donneeFormGroup.value.phone);
+
+    for (let data of this.inputValueLists){
+      await this.sendInputValue(data.id, data.value);
+    }
+
+    await this.calculEstim();
   }
 
-
+  // Sort input for sub-cat selected
   selectInput() {
     // @ts-ignore
     for (let input of this.inputLists_temp) {
@@ -340,6 +359,7 @@ export class EstimateComponent implements OnInit {
     }
   }
 
+  // Sort input option for sub-cat selected
   selectInputOption() {
     for (let input of this.inputLists) {
       if (input.array) {
