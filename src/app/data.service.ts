@@ -31,6 +31,7 @@ export interface Input {
 export interface Input_value {
   id: string;
   value: string;
+  id_array: string | undefined;
 }
 
 export interface Input_array_temp {
@@ -109,8 +110,8 @@ export class FrontDataService {
     return this._httpClient.put<Estim_lists[]>(this._estimPostUrl + '/' + estimId, body)
   }
 
-  postInputValueData(estimId: string, id: string, value: string) {
-    const body = {price_estimate_id: estimId, val_func_id: id, value: value};
+  postInputValueData(estimId: string, id: string, value: string, id_array: string | undefined) {
+    const body = {price_estimate_id: estimId, val_func_id: id, val_func_array_id: id_array, value: value};
     return this._httpClient.post<Input_value_lists[]>(this._inputValueUrl, body)
   }
 

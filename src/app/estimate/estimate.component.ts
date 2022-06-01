@@ -270,10 +270,10 @@ export class EstimateComponent implements OnInit {
   }
 
   // Send all data of product, entry by user, in DB. estimId is used for bind user entry and user estimate.
-  async sendInputValue(id: string, value: string) {
+  async sendInputValue(id: string, value: string, id_array: string | undefined) {
     let estimId = await this.estimId
     await console.log('Dans send input', estimId)
-    await this.dataSrv.postInputValueData(estimId, id, value)
+    await this.dataSrv.postInputValueData(estimId, id, value, id_array)
       .toPromise()
       .then(data => {
         JSON.stringify(data);
@@ -317,11 +317,11 @@ export class EstimateComponent implements OnInit {
     for (let value of this.inputFormGroup.value.input) {
       // Select is Array
       if (value.value.value !== undefined){
-        this.inputValueLists.push({id: value.id, value: value.value.value})
+        this.inputValueLists.push({id: value.id, value: value.value.value, id_array: value.value._id})
       }
       // The rest of classic input
       else{
-        this.inputValueLists.push({id: value.id, value: value.value})
+        this.inputValueLists.push({id: value.id, value: value.value, id_array: value.value._id})
       }
     }
   }
@@ -335,7 +335,7 @@ export class EstimateComponent implements OnInit {
     await this.createEstim(this.categoryId, this.donneeFormGroup.value.name, this.donneeFormGroup.value.surname, this.donneeFormGroup.value.mail, this.donneeFormGroup.value.phone);
 
     for (let data of this.inputValueLists){
-      await this.sendInputValue(data.id, data.value);
+      await this.sendInputValue(data.id, data.value, data.id_array);
     }
 
     await this.calculEstim();
