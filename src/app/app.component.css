@@ -1,6 +1,5 @@
 @media (max-width: 299px) {
   .form_estimate{
-    margin-top: 10vh;
     margin-left: 1%;
     margin-right: 1%;
   }
@@ -8,7 +7,6 @@
 
 @media (min-width: 300px) {
   .form_estimate{
-    margin-top: 10vh;
     margin-left: 1vh;
     margin-right: 1vh;
   }
@@ -16,7 +14,6 @@
 
 @media (min-width: 451px) {
   .form_estimate{
-    margin-top: 10vh;
     margin-left: 5vh;
     margin-right: 5vh;
   }
@@ -24,7 +21,6 @@
 
 @media (min-width: 1301px) {
   .form_estimate{
-    margin-top: 15vh;
     margin-left: 15vh;
     margin-right: 15vh;
   }

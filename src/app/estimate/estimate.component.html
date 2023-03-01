@@ -9,7 +9,7 @@
         <div fxLayoutAlign="stretch" *ngFor="let rootCatList of rootCatLists; let i = index;">
 
           <mat-card appMaterialElevation class="my-card" style="{{focusRootCatCardStyle(i)}}" tabindex="0" (click)="selectRootCat(rootCatList._id, i);">
-            <div>
+            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%">
               <div class="img">
                 <img mat-card-image src="{{apiURL}}/{{rootCatList.picture}}">
               </div>
@@ -109,7 +109,7 @@
             </ng-container>
           </ng-container>
       </div>
-      <div class="btn">
+      <div class="btn-cat">
         <button [disabled]="inputFormGroup.invalid" type="submit" class="btn_next" color="primary" mat-raised-button matStepperNext>Suivant</button>
       </div>
     </form>

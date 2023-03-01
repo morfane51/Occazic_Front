@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { EstimateComponent } from './estimate/estimate.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatSliderModule } from '@angular/material/slider';
@@ -20,13 +21,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MaterialElevationDirective} from "./card-category-elevation.directive";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
     EstimateComponent,
     NavBarComponent,
+    FooterComponent,
     MaterialElevationDirective,
   ],
     imports: [
@@ -45,7 +47,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         MatGridListModule,
         MatCardModule,
         FlexLayoutModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        TooltipModule.forRoot()
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 @media (max-width: 549px) {
   .form {
     width: 80%;
-    margin-top: 10%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: auto;
@@ -11,7 +10,6 @@
 @media (min-width: 550px) {
   .form {
     width: 65%;
-    margin-top: 10%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: auto;
@@ -21,7 +19,6 @@
 @media (min-width: 750px) {
   .form {
     width: 35%;
-    margin-top: 10%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: auto;
@@ -31,7 +28,6 @@
 @media (min-width: 901px) {
   .form {
     width: 25%;
-    margin-top: 5%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: auto;
@@ -49,13 +45,13 @@
   margin-top: 10%;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 0%;
+  margin-bottom: 0;
   text-align: center;
 }
 
 @media (min-width: 299px) {
   .category {
-    margin-top: 10%;
+    margin-top: 2em;
     margin-left: 1%;
     margin-right: 1%;
     margin-bottom: auto;
@@ -65,7 +61,7 @@
 
 @media (min-width: 300px) {
   .category {
-    margin-top: 10%;
+    margin-top: 2em;
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: auto;
@@ -74,9 +70,7 @@
 }
 @media (min-width: 601px) {
   .category {
-    margin-top: 5%;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-top: 2em;
     margin-bottom: auto;
     text-align: center;
   }
@@ -92,20 +86,18 @@
 }
 
 .btn-cat {
-  margin-top: 15%;
+  margin-top: 2em;
   text-align: center;
 }
 
 @media (max-width: 1279px) {
   .btn-cat {
-    margin-top: 15%;
     text-align: center;
   }
 }
 
 @media (min-width: 1280px) {
   .btn-cat {
-    margin-top: 10%;
     text-align: center;
   }
 }
@@ -123,8 +115,8 @@ mat-grid-tile {
 }
 
 .my-card {
-  width: 65px;
-  padding-bottom: 0%;
+  width: 150px;
+  padding-bottom: 0;
 }
 
 .img {
@@ -133,4 +125,11 @@ mat-grid-tile {
   margin-top: 10%;
 }
 
+mat-step:hover {
+  background-color: #fff;
+}
+
+mat-step[ng-reflect-selected="true"], mat-step[aria-selected="true"], mat-step.cdk-focused, mat-step.cdk-program-focused, mat-step.mat-focus-indicator {
+  background-color: #fff !important;
+}
 
