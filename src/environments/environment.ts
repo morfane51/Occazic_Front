@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://occasion.prozic.com:3000'
+  apiURL: 'https://test.prozic.com:3000'
 };
 
 /*
